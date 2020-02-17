@@ -1,13 +1,14 @@
 @import '../../../styles/settings.scss';
 
 .root {
-  .header {
-    &__logged {
-      display: flex;
-      justify-content: space-evenly;
-      max-width: 1280px;
-      margin: 0 auto;
-    }
+}
+
+.header {
+  &__logged {
+    display: flex;
+    justify-content: space-evenly;
+    max-width: 1280px;
+    margin: 0 auto;
   }
 }
 

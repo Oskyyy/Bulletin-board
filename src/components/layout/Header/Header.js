@@ -12,7 +12,7 @@ import styles from './Header.module.scss';
 
 class Component extends React.Component {
   state = {
-    logged: false,
+    logged: true,
   };
 
   static propTypes = {
@@ -44,7 +44,7 @@ class Component extends React.Component {
           <Button
             variant='contained'
             className={clsx(styles.btn, styles.btn__bulletin)}
-            href='/post/myPosts'
+            href='/myPosts'
           >
             My Bulletins
           </Button>

@@ -1,17 +1,18 @@
 @import '../../../styles/settings.scss';
 
 .root {
-  .homepage {
-    &__welcome {
-    }
-    &__cards {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      .card {
-        width: 300px;
-        margin: 0 20px;
-      }
+}
+
+.homepage {
+  &__welcome {
+  }
+  &__cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    .card {
+      width: 300px;
+      margin: 0 20px;
     }
   }
 }

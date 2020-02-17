@@ -1,8 +1,10 @@
 @import '../../../styles/settings.scss';
+@import '../../../styles/global.scss';
 
 .root {
-  .main {
-    color: white;
-    text-align: center;
-  }
+}
+
+.main {
+  color: white;
+  text-align: center;
 }

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import clsx from 'clsx';
 
+import Container from '@material-ui/core/Container';
+
 // import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
@@ -11,8 +13,13 @@ import { Header } from '../Header/Header';
 
 const Component = ({ className, children }) => (
   <div className={clsx(styles.main, styles.root)}>
-    <Header />
-    {children}
+    <h2>
+      <a href='/'>Daliy Planet</a>
+    </h2>
+    <Container maxWidth='lg'>
+      <Header />
+      {children}
+    </Container>
   </div>
 );
 
