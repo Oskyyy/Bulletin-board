@@ -1,4 +1,21 @@
 @import '../../../styles/settings.scss';
 
-// .root {
+.root {
+  .header {
+    &__logged {
+      display: flex;
+      justify-content: space-evenly;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+  }
+}
+
+// @media only screen and (max-width: 767px) {
+//   .logged {
+//     display: block;
+//     .welcome {
+//       display: none;
+//     }
+//   }
 // }
