@@ -9,7 +9,7 @@ import Container from '@material-ui/core/Container';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 import styles from './MainLayout.module.scss';
-import { Header } from '../Header/Header';
+import { HeaderContainer } from '../Header/Header';
 
 const Component = ({ className, children }) => (
   <div className={clsx(styles.main, styles.root)}>
@@ -17,7 +17,7 @@ const Component = ({ className, children }) => (
       <a href='/'>Daliy Planet</a>
     </h2>
     <Container maxWidth='lg'>
-      <Header />
+      <HeaderContainer />
       {children}
     </Container>
   </div>

@@ -1,58 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import clsx from 'clsx';
-
-import Button from '@material-ui/core/Button';
-
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 import styles from './Header.module.scss';
 
+import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
+
+import { connect } from 'react-redux';
+import {
+  loginSwitch,
+  getLogStatus,
+  getUser,
+} from '../../../redux/loginRedux.js';
+
 class Component extends React.Component {
-  state = {
-    logged: true,
-  };
-
-  static propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-  };
-
-  //temp state management for logon
-  onClick = () => {
-    this.setState({
-      logged: true,
-    });
-  };
-
-  checkLogon() {
-    const { logged } = this.state;
-    if (!logged) {
+  checkStatus(login, loginSwitch, user) {
+    if (!login) {
       return (
-        <button
-          className={clsx(styles.btn, styles.btn__google)}
-          onClick={this.onClick}
+        <a
+          className={clsx(styles.Btn, styles.Btngoogle)}
+          href='https://google.com'
         >
-          temp login/ Login with Google
-        </button>
+          Login with Google
+        </a>
       );
     } else {
       return (
-        <div className={clsx(styles.header__logged)}>
+        <div className={styles.logged}>
           <Button
             variant='contained'
-            className={clsx(styles.btn, styles.btn__bulletin)}
+            className={clsx(styles.Btn, styles.BtnBulletin)}
             href='/myPosts'
           >
             My Bulletins
           </Button>
+          <p className={styles.welcome}>Welcome {user.name}</p>
           <Button
             variant='contained'
-            color='secondary'
-            className={clsx(styles.btn)}
-            onClick={this.loggout}
+            className={clsx(styles.Btn, styles.BtnLogout)}
+            onClick={loginSwitch}
           >
             LogOut
           </Button>
@@ -60,27 +47,42 @@ class Component extends React.Component {
       );
     }
   }
+
   render() {
+    const { loginSwitch, login, user } = this.props;
     return (
-      <div className={clsx(styles.header, styles.root)}>
-        {this.checkLogon()}
+      <div className={clsx(styles.login, styles.root)}>
+        <Switch
+          onChange={loginSwitch}
+          inputProps={{ 'aria-label': 'primary checkbox' }}
+        />
+        {this.checkStatus(login, loginSwitch, user)}
       </div>
     );
   }
 }
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+Component.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  loginSwitch: PropTypes.func,
+  login: PropTypes.object,
+  user: PropTypes.object,
+};
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
+const mapStateToProps = state => ({
+  login: getLogStatus(state),
+  user: getUser(state),
+});
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const mapDispatchToProps = dispatch => ({
+  loginSwitch: () => dispatch(loginSwitch()),
+});
+
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
   Component as Header,
-  //Container as Header,
+  Container as HeaderContainer,
   Component as HeaderComponent,
 };
