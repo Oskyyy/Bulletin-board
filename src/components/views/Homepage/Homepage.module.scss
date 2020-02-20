@@ -1,18 +1,38 @@
 @import '../../../styles/settings.scss';
 
-.root {
+// .root {
+
+// }
+
+.welcome {
+  font-weight: 300;
+  font-family: $mainFont;
 }
 
-.homepage {
-  &__welcome {
-  }
-  &__cards {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    .card {
-      width: 300px;
-      margin: 0 20px;
+.cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  .card {
+    width: 300px;
+    margin: 0 20px 40px;
+    font-family: $mainFont;
+    .cardAction {
+      height: 100%;
+    }
+    .plus {
+      font-size: 50px;
+      font-weight: bold;
     }
   }
+}
+
+.cardAction:hover {
+  background: $secondaryColor;
+  color: $whiteColor;
+  transition: 0.5s;
+}
+
+.photo {
+  height: 150px;
 }

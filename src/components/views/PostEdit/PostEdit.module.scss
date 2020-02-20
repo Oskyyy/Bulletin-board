@@ -1,4 +1,40 @@
 @import '../../../styles/settings.scss';
 
 // .root {
+
 // }
+
+.inputs {
+  background:linear-gradient(to right, $primaryColor, $whiteColor, $primaryColor);
+  font-family: $mainFont;
+  width: 100%;
+  margin: 5px 0;
+  border-radius: 5px;
+  label {
+    color: $secondaryColor;
+    font-family: $mainFont;
+  }
+  input {
+    color: $inputColor;
+    font-family: $mainFont;
+  }
+  div:after {
+    border-bottom: $inputDetail;
+    transition: $inputTransition;
+  }
+  textarea {
+    color: $inputColor;
+    font-family: $mainFont;
+  }
+}
+
+.short {
+  max-width: 200px;
+  display: flex;
+  flex-direction: row;
+  padding: 0 10px;
+  div:after {
+    border-bottom: $inputDetail;
+    transition: $inputTransition;
+  }
+}

@@ -1,7 +1,6 @@
 export const giveDate = () => {
   const newDate = new Date();
-  const date = newDate.toLocaleDateString('PL', {
-    // you can skip the first argument
+  const date = newDate.toLocaleDateString('PL', { // you can skip the first argument
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',

@@ -1,10 +1,5 @@
 {
-  "cSpell.enabled":false,
-  "blueprint.templatesPath":[
-      "./dev/blueprint-templates"
-    ],
-    "prettier.singleQuote": true,
-    "prettier.jsxSingleQuote": true,
-    "prettier.trailingComma": "es5",
-    "prettier.useEditorConfig": false
-  }
+  "blueprint.templatesPath": [
+    "./dev/blueprint-templates"
+  ]
+}

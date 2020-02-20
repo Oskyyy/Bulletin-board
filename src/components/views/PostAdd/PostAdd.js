@@ -1,130 +1,200 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { giveDate } from '../../../utils/ustils';
+import { giveDate } from '../../utils/date';
+import NewButton from '../../common/button/button';
+import NewHeader from '../../common/header/header';
 
 import styles from './PostAdd.module.scss';
 
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
 
-//import {connect} from 'react-redux';
-//import {reduxSelector, reduxActionCreator} from '../../../redux/example.js';
+import {connect} from 'react-redux';
+import {addNewPost, getAll, sendSinglePost} from '../../../redux/postsRedux';
+import {getUser, getLogStatus} from '../../../redux/loginRedux';
 
 class Component extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
+  constructor( props ){
+    super( props );
+    this.statusChange = this.statusChange.bind(this);
+    this.submitClick = this.submitClick.bind(this);
   }
 
   state = {
-    status: '',
-  };
+    note: {
+      id: '',
+      title: '',
+      content: '',
+      pubDate: '',
+      actDate: '',
+      email: '',
+      status: 'draft',
+      photo: '',
+      price: '',
+      phone: '',
+      local: '',
+      author: '',
+    },
+  }
 
-  handleChange = name => event => {
+  componentDidMount = () => {
+    const {login} = this.props;
+    if(!login && this.props.history){
+      this.props.history.push('/NotFound');
+    }
+  }
+
+  updateTextField = ({target}) => {
+    const { note } = this.state;
+    const { value, name } = target;
+    this.setState({note: {...note, [name]: value}});
+  }
+
+  updateData = () => {
+    const { note } = this.state;
+    const { posts } = this.props;
+    const date = document.getElementById('pubDate-input');
+    const author = document.getElementById('author-input');
+    this.setState({note: {...note, pubDate: date.value, author: author.value, id: posts.length+1}});
+  }
+
+  statusChange = name => event => {
+    const { note } = this.state;
     this.setState({
       ...this.state,
-      [name]: event.target.value,
+      note: {...note, [name]: event.target.value,
+      },
     });
   };
 
-  render() {
+  async submitClick (event) {
+    event.preventDefault();
+
+    const {updateData} = this;
+    await updateData();
+
+    const { note } = this.state;
+    const {sendPost} = this.props;
+    await sendPost(note);
+
+    await this.props.addNewPost(note);
+  }
+
+  render(){
+    const {user} = this.props;
+    const {note} = this.state;
+    const {updateTextField, submitClick} = this;
     return (
       <div>
-        <h2>Add your Bulletin here!</h2>
-        <form className={styles.form} noValidate autoComplete='off'>
+        <NewHeader>ADD NEW NOTE HERE</NewHeader>
+        <form className={styles.form} noValidate autoComplete="off" onSubmit={submitClick}>
           <div>
-            <TextField
-              required
+            <TextField required
               className={styles.inputs}
-              id='title-input'
-              label='Title'
-              type='text'
-              variant='filled'
+              id="title-input"
+              label="Title"
+              type="text"
+              variant="filled"
+              value={note.title}
+              onChange={updateTextField}
+              name='title'
             />
-            <TextField
-              required
+            <TextField required
               className={styles.inputs}
-              id='content-input'
-              label='Content'
+              id="content-input"
+              label="Content"
               multiline
-              rows='4'
-              type='text'
-              variant='filled'
+              rows="4"
+              type="text"
+              variant="filled"
+              onChange={updateTextField}
+              name='content'
             />
             <TextField
               className={styles.inputs}
-              id='photo-input'
-              label='Photo address'
-              type='text'
-              variant='filled'
+              id="photo-input"
+              label="Photo address"
+              type="text"
+              variant="filled"
+              onChange={updateTextField}
+              name='photo'
             />
             <TextField
               className={styles.inputs}
-              id='local-input'
-              label='Localisation'
-              type='text'
-              variant='filled'
-            />
-            <TextField
-              required
-              className={styles.inputs}
-              id='email-input'
-              label='Email'
-              type='text'
-              variant='filled'
+              id="local-input"
+              label="Localisation"
+              type="text"
+              variant="filled"
+              onChange={updateTextField}
+              name='local'
             />
             <TextField
               className={styles.inputs}
-              id='phone-input'
-              label='Phone number'
-              defaultValue='+48 '
-              type='text'
-              variant='filled'
+              id="price-input"
+              label="Price"
+              type="text"
+              variant="filled"
+              onChange={updateTextField}
+              name='price'
             />
-            <InputLabel
-              className={clsx(styles.inputs, styles.short)}
-              htmlFor='status-switch'
-            >
-              Status
-            </InputLabel>
+            <TextField required
+              className={styles.inputs}
+              id="email-input"
+              label="Email"
+              type="text"
+              variant="filled"
+              onChange={updateTextField}
+              name='email'
+              defaultValue={user ? user.email : ''}
+            />
+            <TextField
+              className={styles.inputs}
+              id="phone-input"
+              label="Phone number"
+              defaultValue="+48 "
+              type="text"
+              variant="filled"
+              onChange={updateTextField}
+              name='phone'
+            />
+            <InputLabel className={clsx(styles.inputs, styles.short)} htmlFor="status-switch">Status</InputLabel>
             <Select
               className={clsx(styles.inputs, styles.short)}
               native
               value={this.state.status}
-              onChange={this.handleChange('status')}
+              onChange={this.statusChange('status')}
               inputProps={{
                 name: 'status',
                 id: 'status-switch',
               }}
             >
-              <option value={10}>Draft</option>
-              <option value={20}>Published</option>
-              <option value={30}>Closed</option>
+              <option value='draft'>Draft</option>
+              <option value='published'>Published</option>
+              <option value='closed'>Closed</option>
             </Select>
-            <TextField
-              disabled
+            <TextField disabled
               className={styles.inputs}
-              id='pubDate-input'
-              label='Publish Date'
-              type='text'
-              variant='filled'
-              defaultValue={giveDate()}
+              id="pubDate-input"
+              label="Publish Date"
+              type="text"
+              variant="filled"
+              value={giveDate()}
+              name='pubDate'
             />
-            <TextField
-              disabled
+            <TextField disabled
               className={styles.inputs}
-              id='author-input'
-              label='Author'
-              type='text'
-              variant='filled'
-              defaultValue='Currently logged'
+              id="author-input"
+              label="Author"
+              type="text"
+              variant="filled"
+              value={user ? user.name : ''}
+              name='author'
             />
-            <Button variant='contained' className={styles.Btn} type='submit'>
+            <NewButton type={'submit'}>
               SUBMIT
-            </Button>
+            </NewButton>
           </div>
         </form>
       </div>
@@ -133,22 +203,29 @@ class Component extends React.Component {
 }
 
 Component.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
+  addNewPost: PropTypes.func,
+  user: PropTypes.object,
+  posts: PropTypes.array,
+  login: PropTypes.bool,
+  history: PropTypes.object,
+  sendPost: PropTypes.func,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = state => ({
+  user: getUser(state),
+  login: getLogStatus(state),
+  posts: getAll(state),
+});
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg),)
-// });
+const mapDispatchToProps = dispatch => ({
+  addNewPost: payload => dispatch(addNewPost(payload)),
+  sendPost: payload => dispatch(sendSinglePost(payload)),
+});
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
   Component as PostAdd,
-  //Container as PostAdd,
+  Container as PostAddContainer,
   Component as PostAddComponent,
 };

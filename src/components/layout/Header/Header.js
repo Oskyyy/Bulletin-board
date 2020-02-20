@@ -1,46 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { Link } from 'react-router-dom';
 
 import styles from './Header.module.scss';
 
 import Button from '@material-ui/core/Button';
 import Switch from '@material-ui/core/Switch';
 
-import { connect } from 'react-redux';
-import {
-  loginSwitch,
-  getLogStatus,
-  getUser,
-} from '../../../redux/loginRedux.js';
+import {connect} from 'react-redux';
+import {loginSwitch, getLogStatus, getUser} from '../../../redux/loginRedux.js';
 
 class Component extends React.Component {
+
   checkStatus(login, loginSwitch, user) {
-    if (!login) {
+    if(!login){
       return (
-        <a
-          className={clsx(styles.Btn, styles.Btngoogle)}
-          href='https://google.com'
-        >
-          Login with Google
+        <a className={clsx(styles.Btn, styles.Btngoogle)} href="https://google.com">
+        Login with Google
         </a>
       );
-    } else {
+    }
+    else {
       return (
         <div className={styles.logged}>
-          <Button
-            variant='contained'
-            className={clsx(styles.Btn, styles.BtnBulletin)}
-            href='/myPosts'
-          >
+          <Button component={Link} variant="contained" className={clsx(styles.Btn, styles.BtnBulletin)} exact to={`${process.env.PUBLIC_URL}/myPosts`}>
             My Bulletins
           </Button>
           <p className={styles.welcome}>Welcome {user.name}</p>
-          <Button
-            variant='contained'
-            className={clsx(styles.Btn, styles.BtnLogout)}
-            onClick={loginSwitch}
-          >
+          <Button variant="contained" className={clsx(styles.Btn, styles.BtnLogout)} onClick={loginSwitch}>
             LogOut
           </Button>
         </div>
@@ -48,8 +36,8 @@ class Component extends React.Component {
     }
   }
 
-  render() {
-    const { loginSwitch, login, user } = this.props;
+  render(){
+    const {loginSwitch, login, user} = this.props;
     return (
       <div className={clsx(styles.login, styles.root)}>
         <Switch
@@ -66,7 +54,7 @@ Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   loginSwitch: PropTypes.func,
-  login: PropTypes.object,
+  login: PropTypes.bool,
   user: PropTypes.object,
 };
 

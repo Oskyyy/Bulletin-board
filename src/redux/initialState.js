@@ -1,14 +1,12 @@
-import db from '../tempDb';
-
 export const initialState = {
   posts: {
-    data: db.notes,
+    data: '',
     loading: {
       active: false,
       error: false,
     },
   },
-  log: {
+  login: {
     logged: false,
     user: {
       admin: false,
