@@ -65,6 +65,6 @@
   "devDependencies": {
     "husky": "^4.2.1",
     "lint-staged": "^10.0.2",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.9"
   }
 }
